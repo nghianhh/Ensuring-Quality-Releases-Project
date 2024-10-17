@@ -6,7 +6,7 @@ trigger:
 variables:
   python.version: '3.10'
   terraformVersion: '1.9.4'
-  azureServiceConnectionId: 'myServiceConnection'
+  azureServiceConnectionId: '$(myServiceConnectionId)'
   projectRoot: $(System.DefaultWorkingDirectory)
   environmentName: 'test'
   poolName: 'Hosted Agent'
