@@ -119,6 +119,7 @@ stages:
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
+            displayName: 'Run Performance Test'
             inputs:
               script: |
                 sudo apt-get upgrade -y
@@ -129,7 +130,7 @@ stages:
                 tar -xf apache-jmeter-5.6.3.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
                 
-                DIR=/home/vm_user/_work/1/drop-perftests/jmeter-html-report
+                DIR=/home/vsts/work/1/drop-perftests/jmeter-html-report
                 if [ ! -d "$DIR" ]; then
                     rm -rf jmeter-html-report
                 fi
@@ -143,7 +144,7 @@ stages:
           - task: ArchiveFiles@2
             displayName: 'Archive JMeter report'
             inputs:
-              rootFolderOrFile: '/home/vm_user/_work/1/drop-perftests/jmeter-html-report'
+              rootFolderOrFile: '/home/vsts/work/1/drop-perftests/jmeter-html-report'
               includeRootFolder: false
               archiveType: 'zip'
               archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-report.zip'
@@ -193,7 +194,7 @@ stages:
                 fi
                 export PATH=$PATH:~/app
                 echo "Starting Selenium Tests"
-                python3 login.py >> selenium.log
+                python3 add_remove_from_cart.py >> selenium.log
 
                 echo "Completed Selenium Tests. Check selenium.log for results."
                 cat selenium.log
