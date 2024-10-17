@@ -3,18 +3,11 @@ name: Azure Pipelines
 trigger:
 - main
 
-variables:
-  python.version: '3.10'
-  terraformVersion: '1.9.4'
-  azureServiceConnectionId: '$(myServiceConnectionId)'
-  projectRoot: $(System.DefaultWorkingDirectory)
-  environmentName: 'test'
-  poolName: 'Hosted Agent'
-  appName: 'project3-app-service'
-  resourceGroupName: 'Azuredevops'
+pool:
+  vmImage: ubuntu-latest
 
-pool: 
-  name: '$(poolName)'
+variables:
+  - group: Udacity-Project3
 
 stages:
 #--------------------------------------------#  
@@ -39,7 +32,7 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        backendServiceArm: '$(azureServiceConnectionId)'
+        backendServiceArm: $(azureServiceConnectionId)
         backendAzureRmResourceGroupName: '$(resourceGroupName)'
         backendAzureRmStorageAccountName: 'project3storage'
         backendAzureRmContainerName: 'storage'
@@ -58,7 +51,7 @@ stages:
         provider: 'azurerm'
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
-        environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
+        environmentServiceNameAzureRM: $(azureServiceConnectionId)
            
     #--------------------------------------------#
     # Selenium (UI) Test Suite - Archive the package  
@@ -119,7 +112,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: '$(azureServiceConnectionId)'
+              azureSubscription: $(azureServiceConnectionId)
               appName: '$(appName)'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip 
