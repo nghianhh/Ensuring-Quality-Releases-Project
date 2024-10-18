@@ -156,8 +156,7 @@ stages:
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
-  # ToDo: 
-  - deployment: VMDeploy
+  - deployment: VM Deploy
     displayName: Selenium Tests
     environment:
       name: '$(environmentName)'
