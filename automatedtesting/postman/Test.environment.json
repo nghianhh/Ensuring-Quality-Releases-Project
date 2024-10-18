@@ -1,0 +1,34 @@
+{
+	"id": "22276c26-0d6b-433f-929d-c7553738b19a",
+	"name": "Project3 Environment",
+	"values": [
+		{
+			"key": "url",
+			"value": "https://project3-app-service.azurewebsites.net/api",
+			"enabled": true
+		},
+		{
+			"key": "path",
+			"value": "Books",
+			"enabled": true
+		},
+		{
+			"key": "id",
+			"value": "2",
+			"enabled": true
+		},
+		{
+			"key": "name_book",
+			"value": "Book 2",
+			"enabled": true
+		},
+		{
+			"key": "name_book_up",
+			"value": "Book 2",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2024-10-17T15:22:12.001Z",
+	"_postman_exported_using": "Postman/11.17.1"
+}
