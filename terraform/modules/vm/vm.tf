@@ -18,7 +18,7 @@ data "azurerm_image" "test" {
 }
 
 resource "azurerm_linux_virtual_machine" "test" {
-  name                  = "${var.application_type}-${var.resource_type}-internal"
+  name                  = "${var.application_type}-${var.resource_type}"
   location              = "${var.location}"
   resource_group_name   = "${var.resource_group}"
   size                  = "Standard_B2s"
@@ -31,5 +31,11 @@ resource "azurerm_linux_virtual_machine" "test" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+  }
+
+  admin_ssh_key {
+    username   = "${var.admin_username}"
+    #public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("/home/vsts/work/_temp/id_rsa.pub")
   }
 }

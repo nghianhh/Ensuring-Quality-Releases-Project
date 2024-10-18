@@ -18,6 +18,20 @@ stages:
   - job: BuildInfrastructure
     steps:
     #--------------------------------------------#  
+    # Download ssh public key 
+    - task: DownloadSecureFile@1
+      displayName: Download SSH Public Key
+      name: id_rsa
+      inputs:
+        secureFile: 'id_rsa.pub'
+
+    # Install SSH Key for VM
+    - task: InstallSSHKey@0
+      displayName: Install SSH Key
+      inputs:
+        knownHostsEntry: 'known_hosts'
+        sshKeySecureFile: 'id_rsa'
+
     # Use Terraform to create the Infrastructure      
     # Install Terraform on the pipeline agent 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
