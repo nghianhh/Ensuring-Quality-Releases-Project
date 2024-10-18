@@ -158,9 +158,9 @@ stages:
   - stage: Performance Test
   jobs:
   #--------------------------------------------#  
-  # Deploy FakeRestAPI Web App
+  # Run Performance Test
   - deployment: FakeRestAPI
-    displayName: Deploy FakeRestAPI Web App 
+    displayName: Run Performance Test
     environment: '$(environmentName)'
     strategy:
       runOnce:
