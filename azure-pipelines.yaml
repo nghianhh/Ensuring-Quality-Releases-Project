@@ -160,7 +160,7 @@ stages:
     displayName: Selenium Tests
     environment:
       name: '$(environmentName)'
-      resourceType: VMSelenium
+      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
