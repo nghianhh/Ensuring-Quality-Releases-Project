@@ -130,7 +130,7 @@ stages:
 #--------------------------------------------#  
 # DEPLOYMENT STAGE
 #--------------------------------------------#    
-- stage: Deploy
+- stage: Deployment
   jobs:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
@@ -147,7 +147,25 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: '$(appName)'
               appType: webApp
-              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip 
+              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+
+#--------------------------------------------# 
+# TEST STAGE
+#--------------------------------------------# 
+
+  #--------------------------------------------#  
+  # Run Performance Test
+  - stage: Performance Test
+  jobs:
+  #--------------------------------------------#  
+  # Deploy FakeRestAPI Web App
+  - deployment: FakeRestAPI
+    displayName: Deploy FakeRestAPI Web App 
+    environment: '$(environmentName)'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -184,8 +202,12 @@ stages:
           # JMeter report - Publish
           - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-report.zip
             displayName: 'Upload Package JMeter report'
-            artifact: drop-jmeter-report
-              
+            artifact: drop-jmeter-report     
+
+  #--------------------------------------------#  
+  # Run UI Test
+  - stage: UI Test
+  jobs:            
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
   - deployment: VMSelenium
@@ -218,8 +240,7 @@ stages:
                 cd app
                 FILE=~/app/chromedriver_linux64.zip
                 if [ ! -f "$FILE" ]; then
-                    LATEST=$(129.0.6668.101)
-                    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+                    wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.101/linux64/chromedriver-linux64.zip
                     unzip -o chromedriver_linux64.zip
                     sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
                 fi
@@ -241,33 +262,33 @@ stages:
                 # Copy the log file and overwrite if it exists
                 sudo cp -f selenium.log /var/log/selenium/selenium.log
 
-#--------------------------------------------# 
-# TEST STAG
-#--------------------------------------------# 
-- stage: Test
-  jobs:
-
-  - job: PostmanTest
-    steps:
-    # Postman Data Validation Test Suite   
-    - task: CmdLine@2
-      displayName: Run Data Validation Tests
-      continueOnError: true
-      inputs:
-        script: 'newman run TestSuite.Data-Validation.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-    # Postman Regression Test Suite    
-    - task: CmdLine@2
-      displayName: Run Regression Tests
-      continueOnError: true
-      inputs:
-        script: 'newman run TestSuite.Regression.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-Regression.xml'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-    # Postman - Publish Results 
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: '**/TEST-*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-        mergeTestResults: true
-        testRunTitle: 'PostmanTest'
+  #--------------------------------------------#  
+  # Run Functional Test
+  - stage: Functional Test
+  jobs:            
+  #--------------------------------------------#  
+  # Functional Tests
+    - job: PostmanTest
+      steps:
+      # Postman Data Validation Test Suite   
+      - task: CmdLine@2
+        displayName: Run Data Validation Tests
+        continueOnError: true
+        inputs:
+          script: 'newman run TestSuite.Data-Validation.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-DataValidation.xml'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+      # Postman Regression Test Suite    
+      - task: CmdLine@2
+        displayName: Run Regression Tests
+        continueOnError: true
+        inputs:
+          script: 'newman run TestSuite.Regression.json -e Test.environment.json --reporters cli,junit --reporter-junit-export TEST-Regression.xml'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+      # Postman - Publish Results 
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/TEST-*.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+          mergeTestResults: true
+          testRunTitle: 'PostmanTest'
