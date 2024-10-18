@@ -14,17 +14,17 @@
 		},
 		{
 			"key": "id",
-			"value": "2",
+			"value": "3",
 			"enabled": true
 		},
 		{
 			"key": "name_book",
-			"value": "Book 2",
+			"value": "Book 3",
 			"enabled": true
 		},
 		{
 			"key": "name_book_up",
-			"value": "Book 2",
+			"value": "Book 3",
 			"enabled": true
 		}
 	],
