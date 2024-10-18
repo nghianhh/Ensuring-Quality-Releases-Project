@@ -24,3 +24,8 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 .venv
+
+#Exclude specific files
+!Test.environment.json
+!TestSuite.Data-Validation.json
+!TestSuite.Regression.json
