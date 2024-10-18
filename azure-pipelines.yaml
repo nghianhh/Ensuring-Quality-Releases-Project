@@ -230,7 +230,10 @@ stages:
                 sudo apt-get upgrade -y
                 sudo apt-get install python3-pip -y
                 sudo apt-get install unzip -y
-                sudo apt-get install -y chromium-browser
+                sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils
+                wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_130.0.6723.58-1_amd64.deb
+                sudo dpkg -i google-chrome-stable_130.0.6723.58-1_amd64.deb
+                sudo apt --fix-broken install
                 pip3 install selenium
                 cd ~/
                 DIR=/home/vm_admin/app
@@ -242,9 +245,9 @@ stages:
                 unzip -o $(Build.BuildId)-uitests.zip
                 FILE=/home/vm_admin/app/chromedriver-linux64.zip
                 if [ ! -f "$FILE" ]; then
-                    wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.101/linux64/chromedriver-linux64.zip
+                    wget https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.58/linux64/chromedriver-linux64.zip
                     unzip -o chromedriver-linux64.zip
-                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
+                    sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
                 fi
                 export PATH=$PATH:/home/vm_admin/app
                 echo "Starting Selenium Tests"
