@@ -153,9 +153,9 @@ stages:
 # TEST STAGE
 #--------------------------------------------# 
 
-  #--------------------------------------------#  
-  # Run Performance Test
-  - stage: Performance Test
+#--------------------------------------------#  
+# Run Performance Test
+- stage: PerformanceTest
   jobs:
   #--------------------------------------------#  
   # Deploy FakeRestAPI Web App
@@ -204,9 +204,9 @@ stages:
             displayName: 'Upload Package JMeter report'
             artifact: drop-jmeter-report     
 
-  #--------------------------------------------#  
-  # Run UI Test
-  - stage: UI Test
+#--------------------------------------------#  
+# Run UI Test
+- stage: UITest
   jobs:            
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
@@ -262,9 +262,9 @@ stages:
                 # Copy the log file and overwrite if it exists
                 sudo cp -f selenium.log /var/log/selenium/selenium.log
 
-  #--------------------------------------------#  
-  # Run Functional Test
-  - stage: Functional Test
+#--------------------------------------------#  
+# Run Functional Test
+- stage: FunctionalTest
   jobs:            
   #--------------------------------------------#  
   # Functional Tests
