@@ -156,11 +156,11 @@ stages:
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
-  - deployment: VMDeploy
+  - deployment: VMSelenium
     displayName: Selenium Tests
     environment:
       name: '$(environmentName)'
-      resourceType: VirtualMachine
+      resourceType: VMSelenium
     strategy:
       runOnce:
         deploy:

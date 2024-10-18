@@ -56,6 +56,7 @@ module "vm" {
   name             = "vm-ubuntu-1804"
   location         = "${var.location}"
   resource_group   = "${var.resource_group}"
+  resource_type    = "VMSelenium"
   subnet_id        = "${module.network.subnet_id_test}"
   public_ip        = "${module.publicip.public_ip_address_id}"
   admin_username   = "${var.admin_username}"
