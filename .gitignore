@@ -1,6 +1,5 @@
 **/*.tfstate
 **/*.json
-**/*.exe
 # Local .terraform directories
 **/.terraform/*
 
@@ -25,7 +24,7 @@ override.tf.json
 *_override.tf.json
 .venv
 
-#Exclude specific files
+#Exclude specific folders & files
 !Test.environment.json
 !TestSuite.Data-Validation.json
 !TestSuite.Regression.json
