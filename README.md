@@ -14,13 +14,8 @@ For this project we use the following tools:
 For this project we will follow the next steps:
 1. Install our dependencies
 2. Configure storage account and state backend for Terraform
-3. Create a Service Principal for Terraform
-4. Configure Pipeline Environment
-5. Configure an Azure Log Analytics Workspace
-6. Create Postman Test Suites
-7. Create a Selenium test for a website
-8. Create a Test Suite with JMeter
-9. Enable Monitoring & Observability
+3. Configure Pipeline Environment
+4. Configure an Azure Log Analytics Workspace
 
 ## Install our dependencies
 | Dependency | Link |
